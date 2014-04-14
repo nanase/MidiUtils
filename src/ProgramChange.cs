@@ -25,7 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace MidiUtils
 {
     /// <summary>
-    /// MIDI で使用されるプログラミチェンジ (インストゥルメント) の列挙体です。
+    /// MIDI で使用されるプログラムチェンジ (インストゥルメント) の列挙体です。
     /// </summary>
     public enum ProgramChange
     {
