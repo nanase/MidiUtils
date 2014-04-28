@@ -89,7 +89,6 @@ namespace MidiUtils.Sequencer
                 throw new FileNotFoundException();
 
             this.tracks = new List<Track>();
-            Console.WriteLine("Loading: " + filename);
 
             using (Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                 this.LoadFile(stream);
