@@ -57,7 +57,9 @@ namespace MidiUtils.IO
 
             this.Load(br);
         }
+        #endregion
 
+        #region -- Public Methods --
         /// <summary>
         /// このインスタンスを表す文字列を取得します。
         /// </summary>
