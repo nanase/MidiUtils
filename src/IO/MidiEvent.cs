@@ -70,6 +70,13 @@ namespace MidiUtils.IO
             this.Load(br);
         }
 
+        /// <summary>
+        /// パラメータを指定して新しい MidiEvent クラスのインスタンスを初期化します。 
+        /// </summary>
+        /// <param name="type">イベントのタイプ。</param>
+        /// <param name="channel">チャネル番号。</param>
+        /// <param name="data1">1つ目のパラメータ。</param>
+        /// <param name="data2">2つ目のパラメータ。</param>
         public MidiEvent(EventType type, int channel, int data1, int data2)
             : base(0, 0)
         {
