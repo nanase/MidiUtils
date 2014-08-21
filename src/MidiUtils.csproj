@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension.cs" />
+    <Compile Include="IO\ControlChange.cs" />
     <Compile Include="IO\Event.cs" />
     <Compile Include="IO\MidiEvent.cs" />
     <Compile Include="IO\Track.cs" />
