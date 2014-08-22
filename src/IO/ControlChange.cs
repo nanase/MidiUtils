@@ -28,6 +28,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace MidiUtils.IO
 {
+    /// <summary>
+    /// パラメータのコントロールを行うためのコントロールチェンジを表した列挙体です。
+    /// </summary>
     public enum ControlChange
     {
         BankSelectMSB = 0,
