@@ -283,7 +283,7 @@ namespace MidiUtils.IO
                     {
                         if (this.ReceivedExclusiveMessage != null)
                         {
-                            var data = this.exclusiveQueue.SelectMany(a => a).Concat(buffer.Take(length));
+                            var data = this.exclusiveQueue.SelectMany(a => a).Concat(buffer.Take(length)).Skip(1);
                             this.ReceivedExclusiveMessage(this, new ReceivedExclusiveMessageEventArgs(data.ToArray(), this));
                         }
 
