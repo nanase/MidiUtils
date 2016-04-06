@@ -61,12 +61,12 @@ namespace MidiUtils.Sequencer
         /// <summary>
         /// 一連のイベントを格納したシーケンスを取得します。
         /// </summary>
-        public Sequence Sequence { get; private set; }
+        public Sequence Sequence { get; }
 
         /// <summary>
         /// シーケンサの現在のテンポ (BPM) を取得します。
         /// </summary>
-        public double Tempo { get { return this.tempo; } }
+        public double Tempo => this.tempo;
 
         /// <summary>
         /// シーケンサの現在のティックを取得または設定します。
