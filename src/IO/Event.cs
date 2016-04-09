@@ -58,7 +58,7 @@ namespace MidiUtils.IO
         /// </summary>
         /// <param name="deltaTime"></param>
         /// <param name="tick"></param>
-        public Event(int deltaTime, long tick)
+        protected Event(int deltaTime, long tick)
         {
             this.DeltaTime = deltaTime;
             this.Tick = tick;
