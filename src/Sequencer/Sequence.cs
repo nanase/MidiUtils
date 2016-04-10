@@ -67,7 +67,7 @@ namespace MidiUtils.Sequencer
         /// <summary>
         /// シーケンスが持つトラックの列挙子を取得します。
         /// </summary>
-        public IEnumerable<Track> Tracks { get { return this.tracks; } }
+        public IEnumerable<Track> Tracks => this.tracks;
 
         /// <summary>
         /// ループが開始されると判定されたティックを取得します。
