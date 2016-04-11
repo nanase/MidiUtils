@@ -117,7 +117,6 @@ namespace MidiUtils.IO
         /// <summary>
         /// サンプリング周波数とデバイス ID を指定して新しい MidiInConnector クラスのインスタンスを初期化します。
         /// </summary>
-        /// <param name="samplingRate">サンプリング周波数。</param>
         /// <param name="id">オープンされる MIDI-IN デバイスの ID。</param>
         public MidiIn(int id)
         {
