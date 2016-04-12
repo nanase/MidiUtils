@@ -97,7 +97,7 @@ namespace MidiUtils.IO
         /// <returns>このインスタンスを表す文字列。</returns>
         public override string ToString()
         {
-            return string.Format("{0}", this.Type);
+            return $"{this.Type}";
         }
         #endregion
     }
