@@ -80,7 +80,7 @@ namespace MidiUtils.IO
         /// <returns>このインスタンスを表す文字列。</returns>
         public override string ToString()
         {
-            return string.Format("{0} - {1}", this.Type, this.MetaType);
+            return $"{this.Type} - {this.MetaType}";
         }
         #endregion
 
