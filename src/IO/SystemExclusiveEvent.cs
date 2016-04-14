@@ -66,7 +66,7 @@ namespace MidiUtils.IO
         /// <returns>このインスタンスを表す文字列。</returns>
         public override string ToString()
         {
-            return string.Format("{0}, Length={1}", this.Type, this.Data.Length);
+            return $"{this.Type}, Length={this.Data.Length}";
         }
         #endregion
 
