@@ -71,7 +71,7 @@ namespace MidiUtils.IO
         /// <returns>テンポ値。</returns>
         public double GetTempo()
         {
-            return 60.0 * 1e6 / (double)(this.Data[0] << 16 | this.Data[1] << 8 | this.Data[2]);
+            return 60.0 * 1e6 / (this.Data[0] << 16 | this.Data[1] << 8 | this.Data[2]);
         }
 
         /// <summary>
