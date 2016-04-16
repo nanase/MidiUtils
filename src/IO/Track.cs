@@ -50,7 +50,7 @@ namespace MidiUtils.IO
         /// <summary>
         /// 格納されているイベントの列挙子を取得します。
         /// </summary>
-        public IEnumerable<Event> Events { get { return this.events; } }
+        public IEnumerable<Event> Events => this.events;
         #endregion
 
         #region -- Constructors --
