@@ -76,7 +76,6 @@ namespace MidiUtils.IO
             long completePosition = br.BaseStream.Position + this.dataLength;
             
             EventType type = EventType.Unknown;
-            byte status;
             int channel = 0;
 
             long tick = 0L;
@@ -88,6 +87,7 @@ namespace MidiUtils.IO
 
                 tick += dt;
 
+                byte status;
                 if (((status = br.ReadByte()) & 0x80) == 0x80)
                 {
                     switch (status & 0xf0)
