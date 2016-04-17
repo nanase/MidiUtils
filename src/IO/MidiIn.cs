@@ -35,11 +35,11 @@ namespace MidiUtils.IO
 
         private const int BufferSize = 256;
 
-        private NativeMethods.MidiInProc midiInProc;
+        private readonly NativeMethods.MidiInProc midiInProc;
         private NativeMethods.MIDIHDR midiHeader;
         private IntPtr ptrHeader, handle;
         private readonly uint headerSize;
-        private Queue<byte[]> exclusiveQueue;
+        private readonly Queue<byte[]> exclusiveQueue;
         private bool isClosing;
 
         #endregion
