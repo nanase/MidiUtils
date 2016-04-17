@@ -44,12 +44,12 @@ namespace MidiUtils.Sequencer
         private readonly long endOfTick;
         private double tempoFactor = 1.0;
         private double tickTime;
-        private long loopBeginTick = 0L;
-        private double progressTick = 0.0;
+        private long loopBeginTick;
+        private double progressTick;
 
-        private int eventIndex = 0;
+        private int eventIndex;
 
-        private Task sequenceTask = null;
+        private Task sequenceTask;
         private readonly List<Event> events;
         private readonly object syncObject = new object();
 
