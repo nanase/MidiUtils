@@ -204,20 +204,20 @@ namespace MidiUtils.IO
         #endregion
 
         #region -- Private Methods --
-        private bool Close()
+        private void Close()
         {
             if (this.IsDisposed)
-                return false;
+                return;
 
             if (this.handle == IntPtr.Zero)
-                return false;
+                return;
 
             this.isClosing = true;
 
             NativeMethods.midiInReset(this.handle);
             NativeMethods.midiInUnprepareHeader(this.handle, this.ptrHeader, this.headerSize);
-            bool result = (NativeMethods.midiInClose(this.handle) == NativeMethods.MMSYSERR_NOERROR);
-
+            NativeMethods.midiInClose(this.handle); // == NativeMethods.MMSYSERR_NOERROR;
+        
             if (this.midiHeader.data != IntPtr.Zero)
             {
                 Marshal.FreeHGlobal(this.midiHeader.data);
@@ -232,7 +232,6 @@ namespace MidiUtils.IO
             }
 
             this.handle = IntPtr.Zero;
-            return result;
         }
 
         private bool Open(int id)
