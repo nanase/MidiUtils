@@ -41,7 +41,7 @@ namespace MidiUtils.Sequencer
         private long tick;
         private double tempo = 120.0;
         private int interval = 5;
-        private long endOfTick;
+        private readonly long endOfTick;
         private double tempoFactor = 1.0;
         private double tickTime;
         private long loopBeginTick = 0L;
