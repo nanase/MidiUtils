@@ -213,8 +213,7 @@ namespace MidiUtils.Sequencer
         {
             var k = this.Tracks.SelectMany(t => t.Events)
                                .OfType<MidiEvent>()
-                               .Where(e => e.Type == EventType.ControlChange && e.Data1 == 111)
-                               .LastOrDefault();
+                               .LastOrDefault(e => e.Type == EventType.ControlChange && e.Data1 == 111);
             return (k == null) ? 0 : k.Tick;
         }
         #endregion
