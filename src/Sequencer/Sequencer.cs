@@ -270,8 +270,6 @@ namespace MidiUtils.Sequencer
             stopwatch.Start();
 
             long oldTick = 0L;
-            long nowTick, startTick, endTick;
-            long processTick;
 
             while (!this.reqEnd)
             {
@@ -282,6 +280,7 @@ namespace MidiUtils.Sequencer
 
                 lock (this.syncObject)
                 {
+                    long nowTick;
                     if (this.reqRewind)
                     {
                         nowTick = oldTick = 0L;
@@ -296,11 +295,11 @@ namespace MidiUtils.Sequencer
                     if (this.progressTick == 0.0)
                         continue;
 
-                    processTick = (long)this.progressTick;
+                    var processTick = (long)this.progressTick;
                     this.progressTick -= processTick;
 
-                    startTick = this.tick;
-                    endTick = startTick + processTick;
+                    var startTick = this.tick;
+                    var endTick = startTick + processTick;
 
                     this.OutputEvents(this.SelectEvents(startTick, endTick).ToList());
 
