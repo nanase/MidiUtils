@@ -236,9 +236,6 @@ namespace MidiUtils.Sequencer
 
         public void Progress(double seconds)
         {
-            long startTick, endTick;
-            long processTick;
-
             double tickTime = 1.0 / ((60.0 / (this.tempo * this.tempoFactor)) / (double)this.Sequence.Resolution);
 
             this.progressTick += (seconds * tickTime);
@@ -246,11 +243,11 @@ namespace MidiUtils.Sequencer
             if (this.progressTick == 0.0)
                 return;
 
-            processTick = (long)progressTick;
+            var processTick = (long)progressTick;
             this.progressTick -= processTick;
 
-            startTick = this.tick;
-            endTick = startTick + processTick;
+            var startTick = this.tick;
+            var endTick = startTick + processTick;
 
             this.OutputEvents(this.SelectEvents(startTick, endTick).ToList());
 
