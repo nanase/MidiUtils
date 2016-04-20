@@ -132,8 +132,8 @@ namespace MidiUtils.Sequencer
                 if (this.Format != 0 && this.Format != 1)
                     throw new InvalidDataException();
 
-                // トラック数
-                int trackCount = br.ReadInt16().ToLittleEndian();
+                // トラック数 (ダミー読み込み)
+                br.ReadInt16().ToLittleEndian();
 
                 // 時間単位 (正数、つまり分解能のみサポート)
                 this.Resolution = br.ReadInt16().ToLittleEndian();
