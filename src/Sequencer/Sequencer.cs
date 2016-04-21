@@ -370,8 +370,8 @@ namespace MidiUtils.Sequencer
 
         private void RecalcTickTime()
         {
-            this.tickTime = 1.0 / ((double)Stopwatch.Frequency *
-                                   ((60.0 / (this.tempo * this.tempoFactor)) / (double)this.Sequence.Resolution));
+            this.tickTime = 1.0 / (Stopwatch.Frequency *
+                                   ((60.0 / (this.tempo * this.tempoFactor)) / this.Sequence.Resolution));
         }
         #endregion
     }
