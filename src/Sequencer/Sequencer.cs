@@ -257,8 +257,8 @@ namespace MidiUtils.Sequencer
             {
                 if (this.Looping)
                     this.Tick = this.loopBeginTick;
-                else if (this.SequenceEnd != null)
-                    this.SequenceEnd(this, new EventArgs());
+                else
+                    this.SequenceEnd?.Invoke(this, new EventArgs());
             }
         }
         #endregion
@@ -310,8 +310,8 @@ namespace MidiUtils.Sequencer
                     {
                         if (this.Looping)
                             this.Tick = this.loopBeginTick;
-                        else if (this.SequenceEnd != null)
-                            this.SequenceEnd(this, new EventArgs());
+                        else
+                            this.SequenceEnd?.Invoke(this, new EventArgs());
                     }
                 }
             }
@@ -323,9 +323,6 @@ namespace MidiUtils.Sequencer
 
         private IEnumerable<Event> SelectEvents(long start, long end)
         {
-            Event @event;
-            MetaEvent tempoEvent;
-
             if (this.eventIndex < 0)
                 this.eventIndex = 0;
 
@@ -335,14 +332,11 @@ namespace MidiUtils.Sequencer
                    this.eventIndex < this.events.Count &&
                    this.events[this.eventIndex].Tick < end)
             {
-                @event = this.events[this.eventIndex++];
-
-                if (@event is MetaEvent)
-                {
-                    tempoEvent = (MetaEvent)@event;
-                    if (tempoEvent.MetaType == MetaType.Tempo)
-                        this.ChangeTempo(tempoEvent.GetTempo());
-                }
+                var @event = this.events[this.eventIndex++];
+                
+                var tempoEvent = @event as MetaEvent;
+                if (tempoEvent?.MetaType == MetaType.Tempo)
+                    this.ChangeTempo(tempoEvent.GetTempo());
 
                 yield return @event;
             }
@@ -355,8 +349,7 @@ namespace MidiUtils.Sequencer
 
             double oldTempo = this.tempo;
 
-            if (this.TempoChanged != null)
-                this.TempoChanged(this, new TempoChangedEventArgs(oldTempo, newTempo));
+            this.TempoChanged?.Invoke(this, new TempoChangedEventArgs(oldTempo, newTempo));
 
             this.tempo = newTempo;
             this.RecalcTickTime();
@@ -364,8 +357,7 @@ namespace MidiUtils.Sequencer
 
         private void OutputEvents(IEnumerable<Event> events)
         {
-            if (this.OnTrackEvent != null)
-                this.OnTrackEvent(this, new TrackEventArgs(events));
+            this.OnTrackEvent?.Invoke(this, new TrackEventArgs(events));
         }
 
         private void RecalcTickTime()
