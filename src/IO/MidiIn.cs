@@ -300,9 +300,6 @@ namespace MidiUtils.IO
                 case NativeMethods.MIM_CLOSE:
                     this.Closed?.Invoke(this, new EventArgs());
                     break;
-
-                default:
-                    break;
             }
         }
 
