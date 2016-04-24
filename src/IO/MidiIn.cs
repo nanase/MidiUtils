@@ -77,7 +77,7 @@ namespace MidiUtils.IO
                 if (Environment.OSVersion.Platform != PlatformID.Win32NT)
                     throw new PlatformNotSupportedException();
 
-                int count = MidiIn.InputCount;
+                int count = InputCount;
                 NativeMethods.MIDIINCAPS result = new NativeMethods.MIDIINCAPS();
                 string[] names = new string[count];
 
