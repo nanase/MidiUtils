@@ -294,13 +294,11 @@ namespace MidiUtils.IO
                     break;
 
                 case NativeMethods.MIM_OPEN:
-                    if (this.Opened != null)
-                        this.Opened(this, new EventArgs());
+                    this.Opened?.Invoke(this, new EventArgs());
                     break;
 
                 case NativeMethods.MIM_CLOSE:
-                    if (this.Closed != null)
-                        this.Closed(this, new EventArgs());
+                    this.Closed?.Invoke(this, new EventArgs());
                     break;
 
                 default:
