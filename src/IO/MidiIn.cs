@@ -132,9 +132,11 @@ namespace MidiUtils.IO
                 throw new InvalidOperationException();
 
             this.headerSize = (uint)Marshal.SizeOf(typeof(NativeMethods.MIDIHDR));
-            this.midiHeader = new NativeMethods.MIDIHDR();
-            this.midiHeader.data = Marshal.AllocHGlobal(BufferSize);
-            this.midiHeader.bufferLength = (uint)BufferSize;
+            this.midiHeader = new NativeMethods.MIDIHDR
+            {
+                data = Marshal.AllocHGlobal(BufferSize),
+                bufferLength = BufferSize
+            };
             Marshal.Copy(new byte[BufferSize], 0, this.midiHeader.data, BufferSize);
 
             this.ptrHeader = Marshal.AllocHGlobal((int)this.headerSize);
