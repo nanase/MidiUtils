@@ -309,7 +309,7 @@ namespace MidiUtils.IO
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         [SuppressMessage("ReSharper", "UnusedMember.Local")]
         [SuppressMessage("ReSharper", "MemberCanBePrivate.Local")]
-        static class NativeMethods
+        private static class NativeMethods
         {
             internal const int MMSYSERR_NOERROR = 0;
             internal const int CALLBACK_FUNCTION = 0x00030000;
