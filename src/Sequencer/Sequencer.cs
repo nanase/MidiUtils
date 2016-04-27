@@ -50,7 +50,7 @@ namespace MidiUtils.Sequencer
         private int eventIndex;
 
         private Task sequenceTask;
-        private readonly List<Event> events;
+        private readonly List<Event> eventList;
         private readonly object syncObject = new object();
 
         private volatile bool reqEnd;
@@ -186,7 +186,7 @@ namespace MidiUtils.Sequencer
                 throw new ArgumentNullException();
 
             this.Sequence = sequence;
-            this.events = new List<Event>(sequence.Tracks.SelectMany(t => t.Events).OrderBy(e => e.Tick));
+            this.eventList = new List<Event>(sequence.Tracks.SelectMany(t => t.Events).OrderBy(e => e.Tick));
             this.endOfTick = sequence.MaxTick;
 
             this.tick = -(long)(sequence.Resolution * 1.0);
@@ -326,13 +326,13 @@ namespace MidiUtils.Sequencer
             if (this.eventIndex < 0)
                 this.eventIndex = 0;
 
-            this.eventIndex = this.events.FindIndex(this.eventIndex, e => e.Tick >= start);
+            this.eventIndex = this.eventList.FindIndex(this.eventIndex, e => e.Tick >= start);
 
             while (this.eventIndex >= 0 &&
-                   this.eventIndex < this.events.Count &&
-                   this.events[this.eventIndex].Tick < end)
+                   this.eventIndex < this.eventList.Count &&
+                   this.eventList[this.eventIndex].Tick < end)
             {
-                var @event = this.events[this.eventIndex++];
+                var @event = this.eventList[this.eventIndex++];
                 
                 var tempoEvent = @event as MetaEvent;
                 if (tempoEvent?.MetaType == MetaType.Tempo)
