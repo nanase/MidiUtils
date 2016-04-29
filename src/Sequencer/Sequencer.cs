@@ -234,9 +234,9 @@ namespace MidiUtils.Sequencer
 
         public void Progress(double seconds)
         {
-            double tickTime = 1.0 / ((60.0 / (this.tempo * this.tempoFactor)) / (double)this.Sequence.Resolution);
+            double tickTimeDelta = 1.0 / ((60.0 / (this.tempo * this.tempoFactor)) / (double)this.Sequence.Resolution);
 
-            this.progressTick += (seconds * tickTime);
+            this.progressTick += (seconds * tickTimeDelta);
 
             if (this.progressTick == 0.0)
                 return;
