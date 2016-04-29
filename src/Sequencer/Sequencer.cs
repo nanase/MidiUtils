@@ -205,8 +205,7 @@ namespace MidiUtils.Sequencer
             if (this.sequenceTask != null && !this.sequenceTask.IsCompleted)
                 return;
 
-            if (this.SequenceStarted != null)
-                this.SequenceStarted(this, new EventArgs());
+            this.SequenceStarted?.Invoke(this, new EventArgs());
 
             this.reqEnd = false;
             this.progressTick = 0.0;
@@ -221,8 +220,7 @@ namespace MidiUtils.Sequencer
             if (this.sequenceTask == null)
                 return;
 
-            if (this.SequenceStopped != null)
-                this.SequenceStopped(this, new EventArgs());
+            this.SequenceStopped?.Invoke(this, new EventArgs());
 
             this.reqEnd = true;
 
