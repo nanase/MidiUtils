@@ -238,7 +238,7 @@ namespace MidiUtils.Sequencer
 
             this.progressTick += (seconds * tickTimeDelta);
 
-            if (this.progressTick == 0.0)
+            if (Math.Abs(this.progressTick) < double.Epsilon)
                 return;
 
             var processTick = (long)progressTick;
@@ -290,7 +290,7 @@ namespace MidiUtils.Sequencer
                     nowTick = stopwatch.ElapsedTicks;
                     this.progressTick += (nowTick - oldTick) * this.tickTime;
 
-                    if (this.progressTick == 0.0)
+                    if (Math.Abs(this.progressTick) < double.Epsilon)
                         continue;
 
                     var processTick = (long)this.progressTick;
@@ -342,7 +342,7 @@ namespace MidiUtils.Sequencer
 
         private void ChangeTempo(double newTempo)
         {
-            if (this.tempo == newTempo)
+            if (Math.Abs(this.tempo - newTempo) < double.Epsilon)
                 return;
 
             double oldTempo = this.tempo;
