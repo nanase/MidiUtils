@@ -234,7 +234,7 @@ namespace MidiUtils.Sequencer
 
         public void Progress(double seconds)
         {
-            double tickTimeDelta = 1.0 / ((60.0 / (this.tempo * this.tempoFactor)) / (double)this.Sequence.Resolution);
+            double tickTimeDelta = 1.0 / ((60.0 / (this.tempo * this.tempoFactor)) / this.Sequence.Resolution);
 
             this.progressTick += (seconds * tickTimeDelta);
 
@@ -288,7 +288,7 @@ namespace MidiUtils.Sequencer
                     }
 
                     nowTick = stopwatch.ElapsedTicks;
-                    this.progressTick += ((double)(nowTick - oldTick) * this.tickTime);
+                    this.progressTick += (nowTick - oldTick) * this.tickTime;
 
                     if (this.progressTick == 0.0)
                         continue;
