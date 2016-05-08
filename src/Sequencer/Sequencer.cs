@@ -278,16 +278,15 @@ namespace MidiUtils.Sequencer
 
                 lock (this.syncObject)
                 {
-                    long nowTick;
                     if (this.reqRewind)
                     {
-                        nowTick = oldTick = 0L;
+                        oldTick = 0L;
                         this.reqRewind = false;
                         stopwatch.Restart();
                         continue;
                     }
 
-                    nowTick = stopwatch.ElapsedTicks;
+                    var nowTick = stopwatch.ElapsedTicks;
                     this.progressTick += (nowTick - oldTick) * this.tickTime;
 
                     if (Math.Abs(this.progressTick) < double.Epsilon)
