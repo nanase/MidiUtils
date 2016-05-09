@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidiUtils", "src\MidiUtils.csproj", "{76C90E84-9450-4635-897D-2C065F8DFC17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9123ACC1-3DFC-4A38-BB83-D3FF7DB772FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "test\UnitTest\UnitTest.csproj", "{049B2E18-80B4-40BA-BF1B-A53CC67855CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +19,15 @@ Global
 		{76C90E84-9450-4635-897D-2C065F8DFC17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76C90E84-9450-4635-897D-2C065F8DFC17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76C90E84-9450-4635-897D-2C065F8DFC17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{049B2E18-80B4-40BA-BF1B-A53CC67855CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{049B2E18-80B4-40BA-BF1B-A53CC67855CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{049B2E18-80B4-40BA-BF1B-A53CC67855CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{049B2E18-80B4-40BA-BF1B-A53CC67855CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{049B2E18-80B4-40BA-BF1B-A53CC67855CA} = {9123ACC1-3DFC-4A38-BB83-D3FF7DB772FA}
 	EndGlobalSection
 EndGlobal
