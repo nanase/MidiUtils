@@ -124,7 +124,7 @@ namespace MidiUtils.IO
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
                 throw new PlatformNotSupportedException();
 
-            this.midiInProc = new NativeMethods.MidiInProc(MidiProc);
+            this.midiInProc = MidiProc;
             this.handle = IntPtr.Zero;
             this.exclusiveQueue = new Queue<byte[]>();
 
