@@ -49,7 +49,7 @@ namespace MidiUtils.IO
         /// <summary>
         /// 対象となるチャネル番号を取得します。
         /// </summary>
-        public int Channel { get; private set; }
+        public int Channel { get; }
         #endregion
 
         #region -- Constructors --
