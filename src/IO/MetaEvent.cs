@@ -69,10 +69,7 @@ namespace MidiUtils.IO
         /// このメタイベントのバイトデータをテンポデータと解釈し、テンポを取得します。
         /// </summary>
         /// <returns>テンポ値。</returns>
-        public double GetTempo()
-        {
-            return 60.0 * 1e6 / (this.Data[0] << 16 | this.Data[1] << 8 | this.Data[2]);
-        }
+        public double GetTempo() => 60.0 * 1e6 / (this.Data[0] << 16 | this.Data[1] << 8 | this.Data[2]);
 
         /// <summary>
         /// このインスタンスを表す文字列を取得します。
