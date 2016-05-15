@@ -352,10 +352,7 @@ namespace MidiUtils.Sequencer
             this.RecalcTickTime();
         }
 
-        private void OutputEvents(IEnumerable<Event> events)
-        {
-            this.OnTrackEvent?.Invoke(this, new TrackEventArgs(events));
-        }
+        private void OutputEvents(IEnumerable<Event> events) => this.OnTrackEvent?.Invoke(this, new TrackEventArgs(events));
 
         private void RecalcTickTime()
         {
