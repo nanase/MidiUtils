@@ -393,12 +393,12 @@ namespace MidiUtils.Sequencer
         /// <summary>
         /// 変更前のテンポを取得します。
         /// </summary>
-        public double OldTempo { get; private set; }
+        public double OldTempo { get; }
 
         /// <summary>
         /// 変更後のテンポを取得します。
         /// </summary>
-        public double NewTempo { get; private set; }
+        public double NewTempo { get; }
         #endregion
 
         #region -- Constructors --
