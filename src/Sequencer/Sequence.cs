@@ -175,7 +175,7 @@ namespace MidiUtils.Sequencer
             }
         }
 
-        private long SeekForRiff(BinaryReader br)
+        private static long SeekForRiff(BinaryReader br)
         {
             // RMI フォーマットに対応するためのメソッド
             // RIFF がリトルエンディアンで、SMF がビッグエンディアン
