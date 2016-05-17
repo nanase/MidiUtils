@@ -64,10 +64,8 @@ namespace MidiUtils.IO
         /// このインスタンスを表す文字列を取得します。
         /// </summary>
         /// <returns>このインスタンスを表す文字列。</returns>
-        public override string ToString()
-        {
-            return $"{this.Type}, Length={this.Data.Length}";
-        }
+        public override string ToString() => $"{this.Type}, Length={this.Data.Length}";
+
         #endregion
 
         #region -- Private Methods --
