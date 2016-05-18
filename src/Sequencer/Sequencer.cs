@@ -39,7 +39,6 @@ namespace MidiUtils.Sequencer
     {
         #region -- Private Fields --
         private long tick;
-        private double tempo = 120.0;
         private int interval = 5;
         private readonly long endOfTick;
         private double tempoFactor = 1.0;
@@ -66,7 +65,7 @@ namespace MidiUtils.Sequencer
         /// <summary>
         /// シーケンサの現在のテンポ (BPM) を取得します。
         /// </summary>
-        public double Tempo => this.tempo;
+        public double Tempo { get; private set; } = 120.0;
 
         /// <summary>
         /// シーケンサの現在のティックを取得または設定します。
@@ -341,14 +340,14 @@ namespace MidiUtils.Sequencer
 
         private void ChangeTempo(double newTempo)
         {
-            if (Math.Abs(this.tempo - newTempo) < double.Epsilon)
+            if (Math.Abs(this.Tempo - newTempo) < double.Epsilon)
                 return;
 
-            double oldTempo = this.tempo;
+            double oldTempo = this.Tempo;
 
             this.TempoChanged?.Invoke(this, new TempoChangedEventArgs(oldTempo, newTempo));
 
-            this.tempo = newTempo;
+            this.Tempo = newTempo;
             this.RecalcTickTime();
         }
 
