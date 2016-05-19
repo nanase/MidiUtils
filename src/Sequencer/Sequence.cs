@@ -108,14 +108,14 @@ namespace MidiUtils.Sequencer
         #region -- Private Methods --
         private void LoadFile(Stream stream)
         {
-            using (BinaryReader br = new BinaryReader(stream))
+            using (var br = new BinaryReader(stream))
             {
                 // ヘッダ読み取り
                 // マシンはリトルエンディアンなのでバイト列を適宜反転
                 // (SMFは ビッグエンディアン で記述されている)
 
-                uint magic = br.ReadUInt32().ToLittleEndian();
-                long endOfStream = stream.Length - 1;
+                var magic = br.ReadUInt32().ToLittleEndian();
+                var endOfStream = stream.Length - 1;
 
                 // マジックナンバー: 4D 54 68 64 (MThd)
                 if (magic == 0x52494646)
@@ -141,7 +141,7 @@ namespace MidiUtils.Sequencer
                     throw new InvalidDataException();
 
                 // トラックの追加
-                int trackNumber = 0;
+                var trackNumber = 0;
                 while (stream.Position < endOfStream)
                 {
                     // マジックナンバー: 4d 54 72 6b (MTrk)
@@ -153,7 +153,7 @@ namespace MidiUtils.Sequencer
                     else
                     {
                         // トラックチャンクでないなら、長さ分だけスキップ
-                        uint length = br.ReadUInt32().ToLittleEndian();
+                        var length = br.ReadUInt32().ToLittleEndian();
                         stream.Seek(length, SeekOrigin.Current);
                     }
 
@@ -164,7 +164,7 @@ namespace MidiUtils.Sequencer
                 {
                     if (!t.Events.Any())
                         return true;
-                    Event e = t.Events.Last();
+                    var e = t.Events.Last();
                     return (e.Type == EventType.MetaEvent && ((MetaEvent)e).MetaType == MetaType.EndOfTrack);
                 }))
                     throw new InvalidDataException();
@@ -182,7 +182,7 @@ namespace MidiUtils.Sequencer
             // エンディアンネスが混在している
             // 混在している。
 
-            uint riffLength = br.ReadUInt32();
+            var riffLength = br.ReadUInt32();
             uint length;
 
             if (riffLength > br.BaseStream.Length)

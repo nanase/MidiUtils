@@ -78,11 +78,11 @@ namespace MidiUtils.IO
                 if (Environment.OSVersion.Platform != PlatformID.Win32NT)
                     throw new PlatformNotSupportedException();
 
-                int count = InputCount;
-                NativeMethods.MIDIINCAPS result = new NativeMethods.MIDIINCAPS();
-                string[] names = new string[count];
+                var count = InputCount;
+                var result = new NativeMethods.MIDIINCAPS();
+                var names = new string[count];
 
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     NativeMethods.midiInGetDevCaps((UIntPtr)i,
                                                    ref result,

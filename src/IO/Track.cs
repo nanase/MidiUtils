@@ -73,17 +73,17 @@ namespace MidiUtils.IO
             // トラックのデータ長
             this.dataLength = br.ReadInt32().ToLittleEndian();
 
-            long completePosition = br.BaseStream.Position + this.dataLength;
-            
-            EventType type = EventType.Unknown;
-            int channel = 0;
+            var completePosition = br.BaseStream.Position + this.dataLength;
 
-            long tick = 0L;
+            var type = EventType.Unknown;
+            var channel = 0;
+
+            var tick = 0L;
 
             // イベントが入る。イベントに処理移行
             while (br.BaseStream.Position < completePosition)
             {
-                int dt = Event.ParseDeltaTime(br);
+                var dt = Event.ParseDeltaTime(br);
 
                 tick += dt;
 
@@ -127,7 +127,7 @@ namespace MidiUtils.IO
                     case EventType.MetaEvent:
                         events.Add(new MetaEvent(dt, tick, type, br));
                         break;
-
+                        
                     default:
                         throw new InvalidDataException();
                 }

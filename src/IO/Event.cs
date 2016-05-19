@@ -76,7 +76,7 @@ namespace MidiUtils.IO
             // 先頭ビットが 1 ==> 前の結果を左に7つビットシフトして、次のバイトとOR、繰り返し
             //             0 ==> 1 と同じだがそれで終わり
 
-            int deltaTime = 0;
+            var deltaTime = 0;
             byte current;
             
             do

@@ -233,7 +233,7 @@ namespace MidiUtils.Sequencer
 
         public void Progress(double seconds)
         {
-            double tickTimeDelta = 1.0 / ((60.0 / (this.tempo * this.tempoFactor)) / this.Sequence.Resolution);
+            var tickTimeDelta = 1.0 / ((60.0 / (this.Tempo * this.tempoFactor)) / this.Sequence.Resolution);
 
             this.progressTick += (seconds * tickTimeDelta);
 
@@ -263,10 +263,10 @@ namespace MidiUtils.Sequencer
         #region -- Private Methods --
         private void Update()
         {
-            Stopwatch stopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            long oldTick = 0L;
+            var oldTick = 0L;
 
             while (!this.reqEnd)
             {
@@ -343,7 +343,7 @@ namespace MidiUtils.Sequencer
             if (Math.Abs(this.Tempo - newTempo) < double.Epsilon)
                 return;
 
-            double oldTempo = this.Tempo;
+            var oldTempo = this.Tempo;
 
             this.TempoChanged?.Invoke(this, new TempoChangedEventArgs(oldTempo, newTempo));
 
