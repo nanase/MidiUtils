@@ -368,7 +368,7 @@ namespace MidiUtils.Sequencer
         /// <summary>
         /// イベントの列挙子を取得します。
         /// </summary>
-        public IEnumerable<Event> Events { get; private set; }
+        public IEnumerable<Event> Events { get; }
         #endregion
 
         #region -- Constructors --
