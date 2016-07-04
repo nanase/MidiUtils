@@ -1,19 +1,20 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MidiUtils.IO;
+﻿using MidiUtils.IO;
+using NUnit.Framework;
+
 // ReSharper disable UnusedVariable
 
 namespace UnitTest
 {
-    [TestClass]
+    [TestFixture]
     public class MidiEventTest
     {
-        [TestMethod]
+        [Test]
         public void CtorTest()
         {
             var midiEvent = new MidiEvent(EventType.NoteOn, 0, 0, 0);
         }
 
-        [TestMethod]
+        [Test]
         public void ToStringTest()
         {
             const EventType type = EventType.NoteOn;
@@ -26,9 +27,9 @@ namespace UnitTest
             Assert.IsNotNull(str);
             Assert.IsFalse(string.IsNullOrWhiteSpace(str));
 
-            StringAssert.Contains(str, type.ToString());
-            StringAssert.Contains(str, channel.ToString());
-            StringAssert.Contains(str, data1.ToString());
+            StringAssert.Contains(type.ToString(), str);
+            StringAssert.Contains(channel.ToString(), str);
+            StringAssert.Contains(data1.ToString(), str);
 
             // data2 is not contained in MidiEvent#ToString
         }

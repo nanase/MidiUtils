@@ -1,12 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MidiUtils;
+﻿using MidiUtils;
+using NUnit.Framework;
 
 namespace UnitTest
 {
-    [TestClass]
+    [TestFixture]
     public class ExtensionTest
     {
-        [TestMethod]
+        [Test]
         public void ToLittleEndianInt16Test()
         {
             Assert.AreEqual((short)0, ((short)0).ToLittleEndian());
@@ -19,7 +19,7 @@ namespace UnitTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ToLittleEndianInt32Test()
         {
             Assert.AreEqual(0, 0.ToLittleEndian());
@@ -32,7 +32,7 @@ namespace UnitTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ToLittleEndianUInt32Test()
         {
             Assert.AreEqual(0U, 0U.ToLittleEndian());
