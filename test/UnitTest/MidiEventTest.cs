@@ -9,18 +9,22 @@ namespace UnitTest
     public class MidiEventTest
     {
         [Test]
-        public void CtorTest()
+        [TestCase((EventType)0, 0, 0, 0)]
+        [TestCase(EventType.NoteOn, 1, 3, 5)]
+        [TestCase((EventType)(-1), -1, -1, -1)]
+        [TestCase((EventType)(int.MaxValue), int.MaxValue, int.MaxValue, int.MaxValue)]
+        public void CtorTest(EventType type, int channel, int data1, int data2)
         {
-            var midiEvent = new MidiEvent(EventType.NoteOn, 0, 0, 0);
+            var midiEvent = new MidiEvent(type, channel, data1, data2);
         }
 
         [Test]
-        public void ToStringTest()
+        [TestCase((EventType)0, 0, 0)]
+        [TestCase(EventType.NoteOn, 1, 3)]
+        [TestCase((EventType)(-1), -1, -1)]
+        [TestCase((EventType)(int.MaxValue), int.MaxValue, int.MaxValue)]
+        public void ToStringTest(EventType type, int channel, int data1)
         {
-            const EventType type = EventType.NoteOn;
-            const int channel = 3;
-            const int data1 = 5;
-
             var midiEvent = new MidiEvent(type, channel, data1, 0);
             var str = midiEvent.ToString();
 
