@@ -36,7 +36,7 @@ namespace MidiUtils
         /// </summary>
         /// <param name="value">バイトオーダが逆転される Int16 値。</param>
         /// <returns>バイトオーダが逆転された結果。</returns>
-        public static Int16 ToLittleEndian(this Int16 value)
+        public static short ToLittleEndian(this short value)
         {
             var array = BitConverter.GetBytes(value);
             Array.Reverse(array);
@@ -48,7 +48,7 @@ namespace MidiUtils
         /// </summary>
         /// <param name="value">バイトオーダが逆転される Int32 値。</param>
         /// <returns>バイトオーダが逆転された結果。</returns>
-        public static Int32 ToLittleEndian(this Int32 value)
+        public static int ToLittleEndian(this int value)
         {
             var array = BitConverter.GetBytes(value);
             Array.Reverse(array);
@@ -60,7 +60,7 @@ namespace MidiUtils
         /// </summary>
         /// <param name="value">バイトオーダが逆転される UInt32 値。</param>
         /// <returns>バイトオーダが逆転された結果。</returns>
-        public static UInt32 ToLittleEndian(this UInt32 value)
+        public static uint ToLittleEndian(this uint value)
         {
             var array = BitConverter.GetBytes(value);
             Array.Reverse(array);
