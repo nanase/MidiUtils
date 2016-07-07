@@ -67,7 +67,7 @@ namespace MidiUtils.Sequencer
         /// <summary>
         /// シーケンスが持つトラックの列挙子を取得します。
         /// </summary>
-        public IEnumerable<Track> Tracks => this.tracks;
+        public IEnumerable<Track> Tracks => tracks;
 
         /// <summary>
         /// ループが開始されると判定されたティックを取得します。
@@ -88,10 +88,10 @@ namespace MidiUtils.Sequencer
             if (!File.Exists(filename))
                 throw new FileNotFoundException();
 
-            this.tracks = new List<Track>();
+            tracks = new List<Track>();
 
             using (Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-                this.LoadFile(stream);
+                LoadFile(stream);
         }
 
         /// <summary>
@@ -100,8 +100,8 @@ namespace MidiUtils.Sequencer
         /// <param name="stream">読み込み可能なストリーム。</param>
         public Sequence(Stream stream)
         {
-            this.tracks = new List<Track>();
-            this.LoadFile(stream);
+            tracks = new List<Track>();
+            LoadFile(stream);
         }
         #endregion
 
@@ -119,7 +119,7 @@ namespace MidiUtils.Sequencer
 
                 // マジックナンバー: 4D 54 68 64 (MThd)
                 if (magic == 0x52494646)
-                    endOfStream = this.SeekForRiff(br);
+                    endOfStream = SeekForRiff(br);
                 else if (magic != 0x4d546864)
                     throw new InvalidDataException();
 
@@ -128,15 +128,15 @@ namespace MidiUtils.Sequencer
                     throw new InvalidDataException();
 
                 // フォーマット (0 or 1. 2 についてはサポート対象外)
-                this.Format = br.ReadInt16().ToLittleEndian();
-                if (this.Format != 0 && this.Format != 1)
+                Format = br.ReadInt16().ToLittleEndian();
+                if (Format != 0 && Format != 1)
                     throw new InvalidDataException();
 
                 // トラック数 (ダミー読み込み)
                 br.ReadInt16().ToLittleEndian();
 
                 // 時間単位 (正数、つまり分解能のみサポート)
-                this.Resolution = br.ReadInt16().ToLittleEndian();
+                Resolution = br.ReadInt16().ToLittleEndian();
                 if (Resolution < 1)
                     throw new InvalidDataException();
 
@@ -148,7 +148,7 @@ namespace MidiUtils.Sequencer
                     if (br.ReadUInt32().ToLittleEndian() == 0x4d54726b)
                     {
                         // Track クラスに処理を移す
-                        this.tracks.Add(new Track(trackNumber, br));
+                        tracks.Add(new Track(trackNumber, br));
                     }
                     else
                     {
@@ -160,7 +160,7 @@ namespace MidiUtils.Sequencer
                     trackNumber++;
                 }
 
-                if (!this.tracks.Any(t =>
+                if (!tracks.Any(t =>
                 {
                     if (!t.Events.Any())
                         return true;
@@ -169,9 +169,9 @@ namespace MidiUtils.Sequencer
                 }))
                     throw new InvalidDataException();
 
-                this.EventCount = this.Tracks.SelectMany(t => t.Events).Count();
-                this.MaxTick = this.Tracks.SelectMany(t => t.Events).Max(e => e.Tick);
-                this.LoopBeginTick = this.DetectLoopBegin();
+                EventCount = Tracks.SelectMany(t => t.Events).Count();
+                MaxTick = Tracks.SelectMany(t => t.Events).Max(e => e.Tick);
+                LoopBeginTick = DetectLoopBegin();
             }
         }
 
@@ -211,7 +211,7 @@ namespace MidiUtils.Sequencer
 
         private long DetectLoopBegin()
         {
-            var k = this.Tracks.SelectMany(t => t.Events)
+            var k = Tracks.SelectMany(t => t.Events)
                                .OfType<MidiEvent>()
                                .LastOrDefault(e => e.Type == EventType.ControlChange && e.Data1 == 111);
             return k?.Tick ?? 0;

@@ -50,7 +50,7 @@ namespace MidiUtils.IO
         /// <summary>
         /// 格納されているイベントの列挙子を取得します。
         /// </summary>
-        public IEnumerable<Event> Events => this.events;
+        public IEnumerable<Event> Events => events;
         #endregion
 
         #region -- Constructors --
@@ -61,9 +61,9 @@ namespace MidiUtils.IO
         /// <param name="br">読み込まれるバイトリーダ。</param>
         internal Track(int number, BinaryReader br)
         {
-            this.events = new List<Event>();
-            this.Number = number;
-            this.LoadFromStream(br);
+            events = new List<Event>();
+            Number = number;
+            LoadFromStream(br);
         }
         #endregion
 
@@ -71,9 +71,9 @@ namespace MidiUtils.IO
         private void LoadFromStream(BinaryReader br)
         {
             // トラックのデータ長
-            this.dataLength = br.ReadInt32().ToLittleEndian();
+            dataLength = br.ReadInt32().ToLittleEndian();
 
-            var completePosition = br.BaseStream.Position + this.dataLength;
+            var completePosition = br.BaseStream.Position + dataLength;
 
             var type = EventType.Unknown;
             var channel = 0;

@@ -58,9 +58,9 @@ namespace MidiUtils.IO
         internal MetaEvent(int deltaTime, long tick, EventType type, BinaryReader br)
             : base(deltaTime, tick)
         {
-            this.Type = type;
+            Type = type;
 
-            this.Load(br);
+            Load(br);
         }
         #endregion
 
@@ -69,25 +69,25 @@ namespace MidiUtils.IO
         /// このメタイベントのバイトデータをテンポデータと解釈し、テンポを取得します。
         /// </summary>
         /// <returns>テンポ値。</returns>
-        public double GetTempo() => 60.0 * 1e6 / (this.Data[0] << 16 | this.Data[1] << 8 | this.Data[2]);
+        public double GetTempo() => 60.0 * 1e6 / (Data[0] << 16 | Data[1] << 8 | Data[2]);
 
         /// <summary>
         /// このインスタンスを表す文字列を取得します。
         /// </summary>
         /// <returns>このインスタンスを表す文字列。</returns>
-        public override string ToString() => $"{this.Type} - {this.MetaType}";
+        public override string ToString() => $"{Type} - {MetaType}";
 
         #endregion
 
         #region -- Private Methods --
         private void Load(BinaryReader br)
         {
-            this.MetaType = (MetaType)br.ReadByte();
+            MetaType = (MetaType)br.ReadByte();
 
             int length = br.ReadByte();
 
-            this.Data = new byte[length];
-            br.Read(this.Data, 0, length);
+            Data = new byte[length];
+            br.Read(Data, 0, length);
         }
         #endregion
     }

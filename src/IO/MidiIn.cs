@@ -124,26 +124,26 @@ namespace MidiUtils.IO
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
                 throw new PlatformNotSupportedException();
 
-            this.midiInProc = MidiProc;
-            this.handle = IntPtr.Zero;
-            this.exclusiveQueue = new Queue<byte[]>();
+            midiInProc = MidiProc;
+            handle = IntPtr.Zero;
+            exclusiveQueue = new Queue<byte[]>();
 
-            if (!this.Open(id))
+            if (!Open(id))
                 throw new InvalidOperationException();
 
-            this.headerSize = (uint)Marshal.SizeOf(typeof(NativeMethods.MIDIHDR));
-            this.midiHeader = new NativeMethods.MIDIHDR
+            headerSize = (uint)Marshal.SizeOf(typeof(NativeMethods.MIDIHDR));
+            midiHeader = new NativeMethods.MIDIHDR
             {
                 data = Marshal.AllocHGlobal(BufferSize),
                 bufferLength = BufferSize
             };
-            Marshal.Copy(new byte[BufferSize], 0, this.midiHeader.data, BufferSize);
+            Marshal.Copy(new byte[BufferSize], 0, midiHeader.data, BufferSize);
 
-            this.ptrHeader = Marshal.AllocHGlobal((int)this.headerSize);
-            Marshal.StructureToPtr(this.midiHeader, this.ptrHeader, true);
+            ptrHeader = Marshal.AllocHGlobal((int)headerSize);
+            Marshal.StructureToPtr(midiHeader, ptrHeader, true);
 
-            NativeMethods.midiInPrepareHeader(this.handle, this.ptrHeader, this.headerSize);
-            NativeMethods.midiInAddBuffer(this.handle, this.ptrHeader, this.headerSize);
+            NativeMethods.midiInPrepareHeader(handle, ptrHeader, headerSize);
+            NativeMethods.midiInAddBuffer(handle, ptrHeader, headerSize);
         }
         #endregion
 
@@ -153,14 +153,14 @@ namespace MidiUtils.IO
         /// </summary>
         public void Start()
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 throw new ObjectDisposedException("this");
 
-            if (this.IsPlaying)
+            if (IsPlaying)
                 return;
 
             NativeMethods.midiInStart(handle);
-            this.IsPlaying = true;
+            IsPlaying = true;
         }
 
         /// <summary>
@@ -168,14 +168,14 @@ namespace MidiUtils.IO
         /// </summary>
         public void Stop()
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 throw new ObjectDisposedException("this");
 
-            if (!this.IsPlaying)
+            if (!IsPlaying)
                 return;
 
             NativeMethods.midiInStop(handle);
-            this.IsPlaying = false;
+            IsPlaying = false;
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace MidiUtils.IO
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
         #endregion
@@ -196,52 +196,52 @@ namespace MidiUtils.IO
         /// アンマネージリソースだけを解放する場合は false。</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.IsDisposed)
+            if (!IsDisposed)
             {
-                this.Stop();
-                this.Close();
+                Stop();
+                Close();
             }
 
-            this.IsDisposed = true;
+            IsDisposed = true;
         }
         #endregion
 
         #region -- Private Methods --
         private void Close()
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 return;
 
-            if (this.handle == IntPtr.Zero)
+            if (handle == IntPtr.Zero)
                 return;
 
-            this.isClosing = true;
+            isClosing = true;
 
-            NativeMethods.midiInReset(this.handle);
-            NativeMethods.midiInUnprepareHeader(this.handle, this.ptrHeader, this.headerSize);
-            NativeMethods.midiInClose(this.handle); // == NativeMethods.MMSYSERR_NOERROR;
+            NativeMethods.midiInReset(handle);
+            NativeMethods.midiInUnprepareHeader(handle, ptrHeader, headerSize);
+            NativeMethods.midiInClose(handle); // == NativeMethods.MMSYSERR_NOERROR;
         
-            if (this.midiHeader.data != IntPtr.Zero)
+            if (midiHeader.data != IntPtr.Zero)
             {
-                Marshal.FreeHGlobal(this.midiHeader.data);
-                this.midiHeader.data = IntPtr.Zero;
+                Marshal.FreeHGlobal(midiHeader.data);
+                midiHeader.data = IntPtr.Zero;
             }
 
-            if (this.ptrHeader != IntPtr.Zero)
+            if (ptrHeader != IntPtr.Zero)
             {
-                Marshal.DestroyStructure(this.ptrHeader, typeof(NativeMethods.MIDIHDR));
-                Marshal.FreeHGlobal(this.ptrHeader);
-                this.ptrHeader = IntPtr.Zero;
+                Marshal.DestroyStructure(ptrHeader, typeof(NativeMethods.MIDIHDR));
+                Marshal.FreeHGlobal(ptrHeader);
+                ptrHeader = IntPtr.Zero;
             }
 
-            this.handle = IntPtr.Zero;
+            handle = IntPtr.Zero;
         }
 
         private bool Open(int id)
         {
-            return NativeMethods.midiInOpen(out this.handle,
+            return NativeMethods.midiInOpen(out handle,
                                             id,
-                                            this.midiInProc,
+                                            midiInProc,
                                             IntPtr.Zero,
                                             NativeMethods.CALLBACK_FUNCTION) == NativeMethods.MMSYSERR_NOERROR;
         }
@@ -251,57 +251,57 @@ namespace MidiUtils.IO
             switch (wMsg)
             {
                 case NativeMethods.MIM_DATA:
-                    if (this.IsDisposed || !this.IsPlaying)
+                    if (IsDisposed || !IsPlaying)
                         return;
 
-                    if (this.ReceivedMidiEvent != null)
+                    if (ReceivedMidiEvent != null)
                     {
                         var @event = new MidiEvent((EventType)(dwParam1 & 0xf0),
                                                                dwParam1 & 0x0f,
                                                                dwParam1 >> 8 & 0xff,
                                                                dwParam1 >> 16 & 0xff);
-                        this.ReceivedMidiEvent(this, new ReceivedMidiEventEventArgs(@event, this));
+                        ReceivedMidiEvent(this, new ReceivedMidiEventEventArgs(@event, this));
                     }
 
                     break;
 
                 case NativeMethods.MIM_LONGDATA:
-                    if (this.IsDisposed || !this.IsPlaying)
+                    if (IsDisposed || !IsPlaying)
                         return;
 
-                    this.midiHeader = (NativeMethods.MIDIHDR)Marshal.PtrToStructure(this.ptrHeader,
+                    midiHeader = (NativeMethods.MIDIHDR)Marshal.PtrToStructure(ptrHeader,
                                                                                     typeof(NativeMethods.MIDIHDR));
 
                     byte[] buffer = new byte[BufferSize];
-                    Marshal.Copy(this.midiHeader.data, buffer, 0, BufferSize);
+                    Marshal.Copy(midiHeader.data, buffer, 0, BufferSize);
                     int length = Array.IndexOf<byte>(buffer, 0xf7, 0, BufferSize);
 
                     if(length == -1)
                     {
-                        this.exclusiveQueue.Enqueue(buffer);
+                        exclusiveQueue.Enqueue(buffer);
                     }
                     else
                     {
-                        if (this.ReceivedExclusiveMessage != null)
+                        if (ReceivedExclusiveMessage != null)
                         {
-                            var data = this.exclusiveQueue.SelectMany(a => a).Concat(buffer.Take(length)).Skip(1);
-                            this.ReceivedExclusiveMessage(this, new ReceivedExclusiveMessageEventArgs(data.ToArray(), this));
+                            var data = exclusiveQueue.SelectMany(a => a).Concat(buffer.Take(length)).Skip(1);
+                            ReceivedExclusiveMessage(this, new ReceivedExclusiveMessageEventArgs(data.ToArray(), this));
                         }
 
-                        this.exclusiveQueue.Clear();
+                        exclusiveQueue.Clear();
                     }
 
-                    if (!this.isClosing)
-                        NativeMethods.midiInAddBuffer(this.handle, this.ptrHeader, this.headerSize);
+                    if (!isClosing)
+                        NativeMethods.midiInAddBuffer(handle, ptrHeader, headerSize);
 
                     break;
 
                 case NativeMethods.MIM_OPEN:
-                    this.Opened?.Invoke(this, new EventArgs());
+                    Opened?.Invoke(this, new EventArgs());
                     break;
 
                 case NativeMethods.MIM_CLOSE:
-                    this.Closed?.Invoke(this, new EventArgs());
+                    Closed?.Invoke(this, new EventArgs());
                     break;
             }
         }
@@ -427,8 +427,8 @@ namespace MidiUtils.IO
 
         public ReceivedMidiEventEventArgs(MidiEvent @event, MidiIn midiIn)
         {
-            this.Event = @event;
-            this.MidiIn = midiIn;
+            Event = @event;
+            MidiIn = midiIn;
         }
 
         #endregion
@@ -448,8 +448,8 @@ namespace MidiUtils.IO
 
         public ReceivedExclusiveMessageEventArgs(IEnumerable<byte> message, MidiIn midiIn)
         {
-            this.Message = message;
-            this.MidiIn = midiIn;
+            Message = message;
+            MidiIn = midiIn;
         }
 
         #endregion

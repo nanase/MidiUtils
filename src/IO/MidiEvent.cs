@@ -64,10 +64,10 @@ namespace MidiUtils.IO
         internal MidiEvent(int deltaTime, long tick, EventType type, int channel, BinaryReader br)
             : base(deltaTime, tick)
         {
-            this.Type = type;
-            this.Channel = channel;
+            Type = type;
+            Channel = channel;
 
-            this.Load(br);
+            Load(br);
         }
 
         /// <summary>
@@ -80,27 +80,27 @@ namespace MidiUtils.IO
         public MidiEvent(EventType type, int channel, int data1, int data2)
             : base(0, 0)
         {
-            this.Type = type;
-            this.Channel = channel;
-            this.Data1 = data1;
-            this.Data2 = data2;
+            Type = type;
+            Channel = channel;
+            Data1 = data1;
+            Data2 = data2;
         }
 
         /// <summary>
         /// このインスタンスを表す文字列を取得します。
         /// </summary>
         /// <returns>このインスタンスを表す文字列。</returns>
-        public override string ToString() => $"{this.Type}, Channel={this.Channel}, Control={this.Data1}";
+        public override string ToString() => $"{Type}, Channel={Channel}, Control={Data1}";
 
         #endregion
 
         #region -- Private Methods --
         private void Load(BinaryReader br)
         {
-            this.Data1 = br.ReadByte();
+            Data1 = br.ReadByte();
 
-            if (this.Type != EventType.ProgramChange && this.Type != EventType.ChannelPressure)
-                this.Data2 = br.ReadByte();
+            if (Type != EventType.ProgramChange && Type != EventType.ChannelPressure)
+                Data2 = br.ReadByte();
         }
         #endregion
     }

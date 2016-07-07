@@ -53,9 +53,9 @@ namespace MidiUtils.IO
         internal SystemExclusiveEvent(int deltaTime, long tick, EventType type, BinaryReader br)
             : base(deltaTime, tick)
         {
-            this.Type = type;
+            Type = type;
 
-            this.Load(br);
+            Load(br);
         }
         #endregion
 
@@ -64,7 +64,7 @@ namespace MidiUtils.IO
         /// このインスタンスを表す文字列を取得します。
         /// </summary>
         /// <returns>このインスタンスを表す文字列。</returns>
-        public override string ToString() => $"{this.Type}, Length={this.Data.Length}";
+        public override string ToString() => $"{Type}, Length={Data.Length}";
 
         #endregion
 
@@ -73,16 +73,16 @@ namespace MidiUtils.IO
         {
             int length = br.ReadByte();
 
-            if (this.Type == EventType.SystemExclusiveF0)
+            if (Type == EventType.SystemExclusiveF0)
             {
-                this.Data = new byte[length + 1];
-                this.Data[0] = 0xf0;
-                br.Read(this.Data, 1, length);
+                Data = new byte[length + 1];
+                Data[0] = 0xf0;
+                br.Read(Data, 1, length);
             }
             else
             {
-                this.Data = new byte[length];
-                br.Read(this.Data, 0, length);
+                Data = new byte[length];
+                br.Read(Data, 0, length);
             }
         }
         #endregion

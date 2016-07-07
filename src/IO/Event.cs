@@ -60,8 +60,8 @@ namespace MidiUtils.IO
         /// <param name="tick"></param>
         protected Event(int deltaTime, long tick)
         {
-            this.DeltaTime = deltaTime;
-            this.Tick = tick;
+            DeltaTime = deltaTime;
+            Tick = tick;
         }
         #endregion
 
@@ -95,7 +95,7 @@ namespace MidiUtils.IO
         /// このインスタンスを表す文字列を取得します。
         /// </summary>
         /// <returns>このインスタンスを表す文字列。</returns>
-        public override string ToString() => $"{this.Type}";
+        public override string ToString() => $"{Type}";
 
         #endregion
     }

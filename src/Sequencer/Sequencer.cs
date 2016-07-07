@@ -72,24 +72,24 @@ namespace MidiUtils.Sequencer
         /// </summary>
         public long Tick
         {
-            get { return this.tick; }
+            get { return tick; }
             set
             {
                 if (value < 0)
                     throw new ArgumentException();
 
-                this.eventIndex = 0;
+                eventIndex = 0;
 
-                if (this.sequenceTask == null)
+                if (sequenceTask == null)
                 {
-                    this.tick = value;
+                    tick = value;
                 }
                 else
                 {
-                    lock (this.syncObject)
+                    lock (syncObject)
                     {
-                        this.tick = value;
-                        this.reqRewind = true;
+                        tick = value;
+                        reqRewind = true;
                     }
                 }
             }
@@ -100,13 +100,13 @@ namespace MidiUtils.Sequencer
         /// </summary>
         public int Interval
         {
-            get { return this.interval; }
+            get { return interval; }
             set
             {
                 if (value < 1)
                     throw new ArgumentException();
 
-                this.interval = value;
+                interval = value;
             }
         }
 
@@ -115,14 +115,14 @@ namespace MidiUtils.Sequencer
         /// </summary>
         public double TempoFactor
         {
-            get { return this.tempoFactor; }
+            get { return tempoFactor; }
             set
             {
                 if (value <= 0.0)
                     throw new ArgumentException();
 
-                this.tempoFactor = value;
-                this.RecalcTickTime();
+                tempoFactor = value;
+                RecalcTickTime();
             }
         }
 
@@ -131,13 +131,13 @@ namespace MidiUtils.Sequencer
         /// </summary>
         public long LoopBeginTick
         {
-            get { return this.loopBeginTick; }
+            get { return loopBeginTick; }
             set
             {
                 if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
 
-                this.loopBeginTick = value;
+                loopBeginTick = value;
             }
         }
 
@@ -184,14 +184,14 @@ namespace MidiUtils.Sequencer
             if (sequence == null)
                 throw new ArgumentNullException();
 
-            this.Sequence = sequence;
-            this.eventList = new List<Event>(sequence.Tracks.SelectMany(t => t.Events).OrderBy(e => e.Tick));
-            this.endOfTick = sequence.MaxTick;
+            Sequence = sequence;
+            eventList = new List<Event>(sequence.Tracks.SelectMany(t => t.Events).OrderBy(e => e.Tick));
+            endOfTick = sequence.MaxTick;
 
-            this.tick = -(long)(sequence.Resolution * 1.0);
-            this.loopBeginTick = sequence.LoopBeginTick;
+            tick = -(long)(sequence.Resolution * 1.0);
+            loopBeginTick = sequence.LoopBeginTick;
 
-            this.RecalcTickTime();
+            RecalcTickTime();
         }
         #endregion
 
@@ -201,14 +201,14 @@ namespace MidiUtils.Sequencer
         /// </summary>
         public void Start()
         {
-            if (this.sequenceTask != null && !this.sequenceTask.IsCompleted)
+            if (sequenceTask != null && !sequenceTask.IsCompleted)
                 return;
 
-            this.SequenceStarted?.Invoke(this, new EventArgs());
+            SequenceStarted?.Invoke(this, new EventArgs());
 
-            this.reqEnd = false;
-            this.progressTick = 0.0;
-            this.sequenceTask = Task.Factory.StartNew(this.Update);
+            reqEnd = false;
+            progressTick = 0.0;
+            sequenceTask = Task.Factory.StartNew(Update);
         }
 
         /// <summary>
@@ -216,46 +216,46 @@ namespace MidiUtils.Sequencer
         /// </summary>
         public void Stop()
         {
-            if (this.sequenceTask == null)
+            if (sequenceTask == null)
                 return;
 
-            this.SequenceStopped?.Invoke(this, new EventArgs());
+            SequenceStopped?.Invoke(this, new EventArgs());
 
-            this.reqEnd = true;
+            reqEnd = true;
 
-            if (Task.CurrentId.HasValue && Task.CurrentId.Value == this.sequenceTask.Id)
+            if (Task.CurrentId.HasValue && Task.CurrentId.Value == sequenceTask.Id)
                 return;
 
-            this.sequenceTask.Wait();
-            this.sequenceTask.Dispose();
-            this.sequenceTask = null;
+            sequenceTask.Wait();
+            sequenceTask.Dispose();
+            sequenceTask = null;
         }
 
         public void Progress(double seconds)
         {
-            var tickTimeDelta = 1.0 / ((60.0 / (this.Tempo * this.tempoFactor)) / this.Sequence.Resolution);
+            var tickTimeDelta = 1.0 / ((60.0 / (Tempo * tempoFactor)) / Sequence.Resolution);
 
-            this.progressTick += (seconds * tickTimeDelta);
+            progressTick += (seconds * tickTimeDelta);
 
-            if (Math.Abs(this.progressTick) < double.Epsilon)
+            if (Math.Abs(progressTick) < double.Epsilon)
                 return;
 
             var processTick = (long)progressTick;
-            this.progressTick -= processTick;
+            progressTick -= processTick;
 
-            var startTick = this.tick;
+            var startTick = tick;
             var endTick = startTick + processTick;
 
-            this.OutputEvents(this.SelectEvents(startTick, endTick).ToList());
+            OutputEvents(SelectEvents(startTick, endTick).ToList());
 
-            this.tick += processTick;
+            tick += processTick;
 
-            if (this.tick >= this.endOfTick)
+            if (tick >= endOfTick)
             {
-                if (this.Looping)
-                    this.Tick = this.loopBeginTick;
+                if (Looping)
+                    Tick = loopBeginTick;
                 else
-                    this.SequenceEnd?.Invoke(this, new EventArgs());
+                    SequenceEnd?.Invoke(this, new EventArgs());
             }
         }
         #endregion
@@ -268,71 +268,71 @@ namespace MidiUtils.Sequencer
 
             var oldTick = 0L;
 
-            while (!this.reqEnd)
+            while (!reqEnd)
             {
-                Thread.Sleep(this.interval);
+                Thread.Sleep(interval);
 
-                if (this.reqEnd)
+                if (reqEnd)
                     break;
 
-                lock (this.syncObject)
+                lock (syncObject)
                 {
-                    if (this.reqRewind)
+                    if (reqRewind)
                     {
                         oldTick = 0L;
-                        this.reqRewind = false;
+                        reqRewind = false;
                         stopwatch.Restart();
                         continue;
                     }
 
                     var nowTick = stopwatch.ElapsedTicks;
-                    this.progressTick += (nowTick - oldTick) * this.tickTime;
+                    progressTick += (nowTick - oldTick) * tickTime;
 
-                    if (Math.Abs(this.progressTick) < double.Epsilon)
+                    if (Math.Abs(progressTick) < double.Epsilon)
                         continue;
 
-                    var processTick = (long)this.progressTick;
-                    this.progressTick -= processTick;
+                    var processTick = (long)progressTick;
+                    progressTick -= processTick;
 
-                    var startTick = this.tick;
+                    var startTick = tick;
                     var endTick = startTick + processTick;
 
-                    this.OutputEvents(this.SelectEvents(startTick, endTick).ToList());
+                    OutputEvents(SelectEvents(startTick, endTick).ToList());
 
                     oldTick = nowTick;
-                    this.tick += processTick;
+                    tick += processTick;
 
-                    if (this.tick >= this.endOfTick)
+                    if (tick >= endOfTick)
                     {
-                        if (this.Looping)
-                            this.Tick = this.loopBeginTick;
+                        if (Looping)
+                            Tick = loopBeginTick;
                         else
-                            this.SequenceEnd?.Invoke(this, new EventArgs());
+                            SequenceEnd?.Invoke(this, new EventArgs());
                     }
                 }
             }
 
-            this.tick = -(long)(this.Sequence.Resolution * 1.0);
+            tick = -(long)(Sequence.Resolution * 1.0);
 
             stopwatch.Stop();
         }
 
         private IEnumerable<Event> SelectEvents(long start, long end)
         {
-            if (this.eventIndex < 0)
-                this.eventIndex = 0;
+            if (eventIndex < 0)
+                eventIndex = 0;
 
-            this.eventIndex = this.eventList.FindIndex(this.eventIndex, e => e.Tick >= start);
+            eventIndex = eventList.FindIndex(eventIndex, e => e.Tick >= start);
 
-            while (this.eventIndex >= 0 &&
-                   this.eventIndex < this.eventList.Count &&
-                   this.eventList[this.eventIndex].Tick < end)
+            while (eventIndex >= 0 &&
+                   eventIndex < eventList.Count &&
+                   eventList[eventIndex].Tick < end)
             {
-                var @event = this.eventList[this.eventIndex++];
+                var @event = eventList[eventIndex++];
                 
                 var tempoEvent = @event as MetaEvent;
                 if (tempoEvent?.MetaType == MetaType.Tempo)
-                    this.ChangeTempo(tempoEvent.GetTempo());
+                    ChangeTempo(tempoEvent.GetTempo());
 
                 yield return @event;
             }
@@ -340,21 +340,21 @@ namespace MidiUtils.Sequencer
 
         private void ChangeTempo(double newTempo)
         {
-            if (Math.Abs(this.Tempo - newTempo) < double.Epsilon)
+            if (Math.Abs(Tempo - newTempo) < double.Epsilon)
                 return;
 
-            var oldTempo = this.Tempo;
+            var oldTempo = Tempo;
 
-            this.TempoChanged?.Invoke(this, new TempoChangedEventArgs(oldTempo, newTempo));
+            TempoChanged?.Invoke(this, new TempoChangedEventArgs(oldTempo, newTempo));
 
-            this.Tempo = newTempo;
-            this.RecalcTickTime();
+            Tempo = newTempo;
+            RecalcTickTime();
         }
 
-        private void OutputEvents(IEnumerable<Event> events) => this.OnTrackEvent?.Invoke(this, new TrackEventArgs(events));
+        private void OutputEvents(IEnumerable<Event> events) => OnTrackEvent?.Invoke(this, new TrackEventArgs(events));
 
-        private void RecalcTickTime() => this.tickTime = 1.0 / (Stopwatch.Frequency *
-                                                                ((60.0 / (this.Tempo * this.tempoFactor)) / this.Sequence.Resolution));
+        private void RecalcTickTime() => tickTime = 1.0 / (Stopwatch.Frequency *
+                                                                ((60.0 / (Tempo * tempoFactor)) / Sequence.Resolution));
 
         #endregion
     }
@@ -378,7 +378,7 @@ namespace MidiUtils.Sequencer
         /// <param name="events">イベントの列挙子。</param>
         public TrackEventArgs(IEnumerable<Event> events)
         {
-            this.Events = events;
+            Events = events;
         }
         #endregion
     }
@@ -408,8 +408,8 @@ namespace MidiUtils.Sequencer
         /// <param name="newTempo">変更後のテンポ。</param>
         public TempoChangedEventArgs(double oldTempo, double newTempo)
         {
-            this.OldTempo = oldTempo;
-            this.NewTempo = newTempo;
+            OldTempo = oldTempo;
+            NewTempo = newTempo;
         }
         #endregion
     }
