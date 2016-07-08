@@ -176,7 +176,7 @@ namespace MidiUtils.Sequencer
 
         #region -- Constructors --
         /// <summary>
-        /// シーケンスを指定して新しい Sequencer クラスのインスタンスを初期化します。
+        /// シーケンスを指定して新しい <see cref="Sequencer"/> クラスのインスタンスを初期化します。
         /// </summary>
         /// <param name="sequence">一連のイベントが格納されたシーケンス。</param>
         public Sequencer(Sequence sequence)
@@ -402,7 +402,7 @@ namespace MidiUtils.Sequencer
 
         #region -- Constructors --
         /// <summary>
-        /// 引数を指定して新しい TempoChangedEventArgs クラスのインスタンスを初期化します。
+        /// 引数を指定して新しい <see cref="TempoChangedEventArgs"/> クラスのインスタンスを初期化します。
         /// </summary>
         /// <param name="oldTempo">変更前のテンポ。</param>
         /// <param name="newTempo">変更後のテンポ。</param>

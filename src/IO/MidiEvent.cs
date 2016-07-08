@@ -54,7 +54,7 @@ namespace MidiUtils.IO
 
         #region -- Constructors --
         /// <summary>
-        /// パラメータを指定して新しい MidiEvent クラスのインスタンスを初期化します。
+        /// パラメータを指定して新しい <see cref="MidiEvent"/> クラスのインスタンスを初期化します。
         /// </summary>
         /// <param name="deltaTime">デルタタイム。</param>
         /// <param name="tick">ティック位置。</param>
@@ -71,7 +71,7 @@ namespace MidiUtils.IO
         }
 
         /// <summary>
-        /// パラメータを指定して新しい MidiEvent クラスのインスタンスを初期化します。 
+        /// パラメータを指定して新しい <see cref="MidiEvent"/> クラスのインスタンスを初期化します。 
         /// </summary>
         /// <param name="type">イベントのタイプ。</param>
         /// <param name="channel">チャネル番号。</param>
