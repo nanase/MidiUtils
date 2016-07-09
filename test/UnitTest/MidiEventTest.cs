@@ -16,6 +16,11 @@ namespace UnitTest
         public void CtorTest(EventType type, int channel, int data1, int data2)
         {
             var midiEvent = new MidiEvent(type, channel, data1, data2);
+
+            Assert.AreEqual(type, midiEvent.Type);
+            Assert.AreEqual(channel, midiEvent.Channel);
+            Assert.AreEqual(data1, midiEvent.Data1);
+            Assert.AreEqual(data2, midiEvent.Data2);
         }
 
         [Test]
