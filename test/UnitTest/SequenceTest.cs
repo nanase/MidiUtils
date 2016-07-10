@@ -15,8 +15,15 @@ namespace UnitTest
         [TestCase("empty.mid")]
         public void CtorTest(string filename)
         {
-            var input_filepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "midi", filename);
-            var sequence = new Sequence(input_filepath);
+            var inputFilepath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "midi", filename);
+            var sequence = new Sequence(inputFilepath);
+
+            Assert.That(sequence.EventCount, Is.GreaterThan(0));
+            Assert.That(sequence.Format, Is.EqualTo(0).Or.EqualTo(1));
+            Assert.That(sequence.LoopBeginTick, Is.GreaterThanOrEqualTo(0));
+            Assert.That(sequence.MaxTick, Is.GreaterThanOrEqualTo(0).And.GreaterThanOrEqualTo(sequence.LoopBeginTick));
+            Assert.That(sequence.Resolution, Is.GreaterThan(0));
+            Assert.That(sequence.Tracks, Is.Not.Null);
         }
     }
 }
