@@ -67,7 +67,7 @@ namespace MidiUtils.IO
             Type = type;
             Channel = channel;
 
-            Load(br);
+            LoadDataParameters(br);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace MidiUtils.IO
         #endregion
 
         #region -- Private Methods --
-        private void Load(BinaryReader br)
+        private void LoadDataParameters(BinaryReader br)
         {
             Data1 = br.ReadByte();
 
