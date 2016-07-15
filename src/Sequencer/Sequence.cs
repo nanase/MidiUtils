@@ -100,6 +100,12 @@ namespace MidiUtils.Sequencer
         /// <param name="stream">読み込み可能なストリーム。</param>
         public Sequence(Stream stream)
         {
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+
+            if (!stream.CanRead)
+                throw new InvalidDataException();
+
             tracks = new List<Track>();
             LoadFile(stream);
         }
