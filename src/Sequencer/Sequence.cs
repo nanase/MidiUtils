@@ -82,7 +82,7 @@ namespace MidiUtils.Sequencer
         /// <param name="filename">読み込まれる SMF (MIDI) ファイル名。</param>
         public Sequence(string filename)
         {
-            if (String.IsNullOrWhiteSpace(filename))
+            if (string.IsNullOrWhiteSpace(filename))
                 throw new ArgumentNullException();
 
             if (!File.Exists(filename))
