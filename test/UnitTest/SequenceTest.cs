@@ -63,6 +63,14 @@ namespace UnitTest
             Assert.Throws<InvalidDataException>(() => new Sequence(new WriteOnlyStream()));
         }
 
+        [Test]
+        public void LoadFileError()
+        {
+            // WIP
+
+            Assert.Throws<InvalidDataException>(() => new Sequence(new MemoryStream(new byte[] { 0, 0, 0, 0 })));
+        }
+
         private class WriteOnlyStream : MemoryStream
         {
             public override bool CanRead => false;
