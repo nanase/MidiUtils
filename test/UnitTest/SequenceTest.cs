@@ -4,6 +4,7 @@ using System.IO;
 using MidiUtils.Sequencer;
 using NUnit.Framework;
 
+// ReSharper disable All
 // ReSharper disable UnusedVariable
 
 namespace UnitTest
@@ -48,7 +49,6 @@ namespace UnitTest
         }
 
         [Test]
-        [SuppressMessage("ReSharper", "ObjectCreationAsStatement")]
         public void CtorError1()
         {
             Assert.Throws<ArgumentNullException>(() => new Sequence((string)null));
@@ -57,7 +57,6 @@ namespace UnitTest
         }
 
         [Test]
-        [SuppressMessage("ReSharper", "ObjectCreationAsStatement")]
         public void CtorError2()
         {
             Assert.Throws<ArgumentNullException>(() => new Sequence((Stream)null));
