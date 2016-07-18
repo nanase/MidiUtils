@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ExtensionTest.cs" />
+    <Compile Include="SequencerTest.cs" />
     <Compile Include="SequenceTest.cs" />
     <Compile Include="MidiEventTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
