@@ -72,6 +72,8 @@ namespace UnitTest
             Assert.Throws<InvalidDataException>(() => new Sequence(new MemoryStream(new byte[] { 0, 0, 0, 0 })));
             Assert.Throws<InvalidDataException>(() => new Sequence(new MemoryStream(new byte[] { 0x4d, 0x54, 0x68, 0x64, 0, 0, 0, 0 })));
             Assert.Throws<InvalidDataException>(() => new Sequence(new MemoryStream(new byte[] { 0x4d, 0x54, 0x68, 0x64, 0, 0, 0, 6, 0, 2 })));
+            Assert.Throws<InvalidDataException>(() => new Sequence(new MemoryStream(new byte[] { 0x4d, 0x54, 0x68, 0x64, 0, 0, 0, 6, 0, 1, 0, 1, 0, 0 })));
+            Assert.Throws<InvalidDataException>(() => new Sequence(new MemoryStream(new byte[] { 0x4d, 0x54, 0x68, 0x64, 0, 0, 0, 6, 0, 1, 0, 1, 0, 1 })));
         }
 
         private class WriteOnlyStream : MemoryStream
