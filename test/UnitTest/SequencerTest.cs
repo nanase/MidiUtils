@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using MidiUtils.Sequencer;
 using NUnit.Framework;
-
-// ReSharper disable All
-// ReSharper disable UnusedVariable
 
 namespace UnitTest
 {

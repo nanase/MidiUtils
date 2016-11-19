@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // http://www.geocities.co.jp/Hollywood-Miyuki/9008/basic/b_02.html
 // http://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%B3%E3%83%88%E3%83%AD%E3%83%BC%E3%83%AB%E3%83%81%E3%82%A7%E3%83%B3%E3%82%B8
 
+// ReSharper disable InconsistentNaming
 namespace MidiUtils.IO
 {
     /// <summary>

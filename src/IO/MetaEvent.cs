@@ -121,7 +121,7 @@ namespace MidiUtils.IO
         /// 楽器名。
         /// </summary>
         InstrumentName = 0x04,
-        
+
         /// <summary>
         /// 歌詞。
         /// </summary>

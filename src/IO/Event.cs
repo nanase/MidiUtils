@@ -78,7 +78,7 @@ namespace MidiUtils.IO
 
             var deltaTime = 0;
             byte current;
-            
+
             do
             {
                 current = br.ReadByte();
@@ -104,7 +104,7 @@ namespace MidiUtils.IO
     /// イベントの種類を表す列挙体です。
     /// </summary>
     public enum EventType
-	{
+    {
         /// <summary>
         /// 不明。イベントの種類を特定できません。
         /// </summary>

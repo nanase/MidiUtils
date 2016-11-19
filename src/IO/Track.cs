@@ -127,13 +127,13 @@ namespace MidiUtils.IO
                     case EventType.MetaEvent:
                         events.Add(new MetaEvent(dt, tick, type, br));
                         break;
-                        
+
                     default:
                         throw new InvalidDataException();
                 }
             }
 
-            if(br.BaseStream.Position > completePosition)
+            if (br.BaseStream.Position > completePosition)
                 throw new InvalidDataException();
         }
         #endregion

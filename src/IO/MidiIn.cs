@@ -48,7 +48,7 @@ namespace MidiUtils.IO
         #region -- Public Properties --
 
         public bool IsPlaying { get; private set; }
-        
+
         /// <summary>
         /// オブジェクトが破棄されたかを表す真偽値を取得します。
         /// </summary>
@@ -220,7 +220,7 @@ namespace MidiUtils.IO
             NativeMethods.midiInReset(handle);
             NativeMethods.midiInUnprepareHeader(handle, ptrHeader, headerSize);
             NativeMethods.midiInClose(handle); // == NativeMethods.MMSYSERR_NOERROR;
-        
+
             if (midiHeader.data != IntPtr.Zero)
             {
                 Marshal.FreeHGlobal(midiHeader.data);

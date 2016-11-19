@@ -22,6 +22,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+// ReSharper disable InconsistentNaming
 namespace MidiUtils
 {
     /// <summary>
@@ -38,7 +39,7 @@ namespace MidiUtils
         /// ブライトピアノ。
         /// </summary>
         BrightAcousticPiano,
-        
+
         /// <summary>
         /// エレクトリックグランドピアノ。
         /// </summary>
@@ -273,7 +274,7 @@ namespace MidiUtils
         /// ストリングアンサンブル1。
         /// </summary>
         StringEnsemble1,
-        
+
         /// <summary>
         /// ストリングアンサンブル2。
         /// </summary>
