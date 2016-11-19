@@ -61,8 +61,7 @@ namespace MidiUtils.IO
         {
             get
             {
-                if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-                    throw new PlatformNotSupportedException();
+                CheckPlatform();
 
                 return NativeMethods.midiInGetNumDevs();
             }
@@ -75,8 +74,7 @@ namespace MidiUtils.IO
         {
             get
             {
-                if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-                    throw new PlatformNotSupportedException();
+                CheckPlatform();
 
                 var count = InputCount;
                 var result = new NativeMethods.MIDIINCAPS();
@@ -121,8 +119,7 @@ namespace MidiUtils.IO
         /// <param name="id">オープンされる MIDI-IN デバイスの ID。</param>
         public MidiIn(int id)
         {
-            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-                throw new PlatformNotSupportedException();
+            CheckPlatform();
 
             midiInProc = MidiProc;
             handle = IntPtr.Zero;
@@ -207,6 +204,13 @@ namespace MidiUtils.IO
         #endregion
 
         #region -- Private Methods --
+
+        private static void CheckPlatform()
+        {
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+                throw new PlatformNotSupportedException();
+        }
+
         private void Close()
         {
             if (IsDisposed)
