@@ -159,5 +159,5 @@ namespace MidiUtils.IO
         /// メタイベント。演奏自体の制御やメタデータの格納に用います。
         /// </summary>
         MetaEvent = 0xff,
-	}
+    }
 }
