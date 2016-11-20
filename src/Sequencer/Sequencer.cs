@@ -250,13 +250,13 @@ namespace MidiUtils.Sequencer
 
             tick += processTick;
 
-            if (tick >= endOfTick)
-            {
-                if (Looping)
-                    Tick = loopBeginTick;
-                else
-                    SequenceEnd?.Invoke(this, new EventArgs());
-            }
+            if (tick < endOfTick)
+                return;
+
+            if (Looping)
+                Tick = loopBeginTick;
+            else
+                SequenceEnd?.Invoke(this, new EventArgs());
         }
         #endregion
 
@@ -302,13 +302,13 @@ namespace MidiUtils.Sequencer
                     oldTick = nowTick;
                     tick += processTick;
 
-                    if (tick >= endOfTick)
-                    {
-                        if (Looping)
-                            Tick = loopBeginTick;
-                        else
-                            SequenceEnd?.Invoke(this, new EventArgs());
-                    }
+                    if (tick < endOfTick)
+                        continue;
+
+                    if (Looping)
+                        Tick = loopBeginTick;
+                    else
+                        SequenceEnd?.Invoke(this, new EventArgs());
                 }
             }
 
@@ -329,7 +329,7 @@ namespace MidiUtils.Sequencer
                    eventList[eventIndex].Tick < end)
             {
                 var @event = eventList[eventIndex++];
-                
+
                 var tempoEvent = @event as MetaEvent;
                 if (tempoEvent?.MetaType == MetaType.Tempo)
                     ChangeTempo(tempoEvent.GetTempo());
