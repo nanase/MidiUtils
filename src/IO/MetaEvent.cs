@@ -62,6 +62,31 @@ namespace MidiUtils.IO
 
             Load(br);
         }
+
+        /// <summary>
+        /// パラメータを指定して新しい MetaEvent クラスのインスタンスを初期化します。
+        /// </summary>
+        /// <param name="type">メタイベントのタイプ。</param>
+        /// <param name="data">メタイベントに格納するバイトデータ。。</param>
+        public MetaEvent(EventType type, byte[] data)
+            : this(type, data, 0, 0)
+        {
+        }
+
+        /// <summary>
+        /// パラメータを指定して新しい MetaEvent クラスのインスタンスを初期化します。
+        /// </summary>
+        /// <param name="type">メタイベントのタイプ。</param>
+        /// <param name="data">メタイベントに格納するバイトデータ。。</param>
+        /// <param name="deltaTime">デルタタイム。</param>
+        /// <param name="tick">ティック位置。</param>
+        public MetaEvent(EventType type, byte[] data, int deltaTime, long tick)
+            : base(deltaTime, tick)
+        {
+            Type = type;
+            Data = new byte[data.Length];
+            data.CopyTo(Data, 0);
+        }
         #endregion
 
         #region -- Public Methods --
