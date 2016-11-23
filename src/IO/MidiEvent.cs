@@ -78,7 +78,21 @@ namespace MidiUtils.IO
         /// <param name="data1">1つ目のパラメータ。</param>
         /// <param name="data2">2つ目のパラメータ。</param>
         public MidiEvent(EventType type, int channel, int data1, int data2)
-            : base(0, 0)
+            : this(type, channel, data1, data2, 0, 0)
+        {
+        }
+
+        /// <summary>
+        /// パラメータを指定して新しい <see cref="MidiEvent"/> クラスのインスタンスを初期化します。 
+        /// </summary>
+        /// <param name="type">イベントのタイプ。</param>
+        /// <param name="channel">チャネル番号。</param>
+        /// <param name="data1">1つ目のパラメータ。</param>
+        /// <param name="data2">2つ目のパラメータ。</param>
+        /// <param name="deltaTime">デルタタイム。</param>
+        /// <param name="tick">ティック位置。</param>
+        public MidiEvent(EventType type, int channel, int data1, int data2, int deltaTime, long tick)
+            : base(deltaTime, tick)
         {
             Type = type;
             Channel = channel;
