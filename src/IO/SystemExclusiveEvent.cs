@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *          http://www2s.biglobe.ne.jp/~yyagi/material/smfspec.html
  */
 
+using System;
 using System.IO;
 
 namespace MidiUtils.IO
@@ -57,6 +58,45 @@ namespace MidiUtils.IO
 
             Load(br);
         }
+
+        /// <summary>
+        /// パラメータを指定して新しい SystemExclusiveEvent クラスのインスタンスを初期化します。
+        /// </summary>
+        /// <param name="type">イベントのタイプ。</param>
+        /// <param name="data">格納されるバイトデータ。</param>
+        internal SystemExclusiveEvent(EventType type, byte[] data)
+            : this(type, data, 0, 0)
+        {
+        }
+
+        /// <summary>
+        /// パラメータを指定して新しい SystemExclusiveEvent クラスのインスタンスを初期化します。
+        /// </summary>
+        /// <param name="type">イベントのタイプ。</param>
+        /// <param name="data">格納されるバイトデータ。</param>
+        /// <param name="deltaTime">デルタタイム。</param>
+        /// <param name="tick">ティック位置。</param>
+        internal SystemExclusiveEvent(EventType type, byte[] data, int deltaTime, long tick)
+            : base(deltaTime, tick)
+        {
+            Type = type;
+
+            switch (type)
+            {
+                case EventType.SystemExclusiveF0:
+                    Data = new byte[data.Length + 1];
+                    Data[0] = 0xf0;
+                    data.CopyTo(Data, 1);
+                    break;
+                case EventType.SystemExclusiveF7:
+                    Data = new byte[data.Length];
+                    data.CopyTo(Data, 0);
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
         #endregion
 
         #region -- Public Methods --
